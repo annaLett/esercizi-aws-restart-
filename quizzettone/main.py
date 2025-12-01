@@ -77,6 +77,29 @@ def genera_feedback(scelta:str) -> str :
     else:
         return "Non hai indovinato. Ritenta"
 
+"""
+--------------5.
+mostra_feedback(messaggio) (senza return)
+Prende come parametro una stringa
+Stampa il feedback in modo formattato
+Non restituisce nulla
+
+"""
+def mostra_feedback(messaggio:str) -> None:
+    """
+    Restituisce il feedback formattato nella maniera desiderata
+    """
+    simbol: str = "*"*30
+    print(f"""
+          
+{simbol}
+{messaggio}
+{simbol}
+          
+          """)
+
+
+
 
 
 mostra_domanda()
@@ -90,4 +113,4 @@ if risposta_validata == True:
 else:
     feedback("Inserisi solo la risposta tra le opzioni")
     
-print(feedback)
+mostra_feedback(feedback)
