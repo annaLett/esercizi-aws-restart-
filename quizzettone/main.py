@@ -125,6 +125,28 @@ def estrai_risposta(content: str, index: int) -> str:
     return content[index+1:]  #per prendere il valore dopo £ che è A
 
 def main():
+    domande_list: list[str] = []
+    qa:dict[str,str]={
+        "domanda":None,
+        "risposta":None
+    }
+    with open("domande.txt","r") as f:
+        for i in f:
+            domande_list.append(i.strip())
+    #with open(domande_list[0],"r") as f:
+     #   for i in f:
+      #      print(i)
+            
+    content: str = leggi_file(f"domande_risposte/{domande_list[0]}")
+    index:int = estrai_index(content)
+    qa["domanda"] = estrai_domanda(content, index)
+    qa["risposta"]= estrai_risposta(content, index)
+    print(qa)
+
+    
+    
+    
+    """
     filepath : str = sys.argv[1] # comando per lanciare python3 main.py domanda-1.txt
     content: str = leggi_file(filepath)
     index: int = estrai_index(content)
@@ -147,6 +169,7 @@ def main():
         mostra_feedback(feedback)
         if is_risposta_corretta == True: 
             break
+            """
 
 # Entry point del nostro programma
 main()
