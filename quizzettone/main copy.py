@@ -37,12 +37,12 @@ def valida_scelta(scelta: str) -> bool:
     else: 
         return False
 
-def mostra_domanda(domanda: str) -> None: 
+def mostra_domanda(domanda: str,counter_domanda_corrente,lista_domande_length) -> None: 
     """
     Questa funzione restituisce la domanda e le opzioni della riposta. 
     """
     
-    print(domanda)
+    print(f"Domanda {counter_domanda_corrente+1} di {lista_domande_length}\n------------------------------\n{domanda}")
 
 def raccogli_risposta() -> str:
     """
@@ -89,6 +89,22 @@ def genera_statistiche(risultato_finale: list[dict[str, str | bool]]) -> dict[st
     statistica["risposte_non_esatte"] = risposte_non_esatte
     return statistica
 
+def muoviti(domanda_corrente: int, lunghezza_lista_domande: int) -> int:
+    
+    if domanda_corrente == 0:
+        return 1
+
+
+    if domanda_corrente == lunghezza_lista_domande - 1:
+        scelta_ute = input("Digita 'P' per tornare alla domanda precendente (o INVIO) per mostrare i risultati: ")
+        return -1 if scelta_ute.upper() == "P" else 1 #siamo all'ultima domanda quindi non si muove
+
+    
+    scelta_ute = input("Digita 'P' per tornare indietro, 'S' (o qualsiasi altro tasto) per prosegue alla domanda Successiva: ")
+    return -1 if scelta_ute.upper() == "P" else 1
+
+
+
 def main():
     lista_domande: list[str] = []
     risultato_finale: list[dict[str, str | bool]] = []
@@ -105,7 +121,7 @@ def main():
         domanda_e_risposta["domanda"] = estrai_domanda(content, index)
         domanda_e_risposta["risposta"] = estrai_risposta(content, index)
 
-        mostra_domanda(domanda_e_risposta["domanda"])
+        mostra_domanda(domanda_e_risposta["domanda"],counter_domanda_corrente,lista_domande_length)
 
         risposta_utente: str = raccogli_risposta()
 
@@ -119,12 +135,20 @@ def main():
             feedback = genera_feedback(is_risposta_corretta)
             risultato["domanda"] = lista_domande[counter_domanda_corrente]
             risultato["risposta_corretta"] = is_risposta_corretta
-            risultato_finale.append(risultato)
-            counter_domanda_corrente += 1
+            if len(risultato_finale) > counter_domanda_corrente:
+                risultato_finale[counter_domanda_corrente] = risultato
+            else:
+                risultato_finale.append(risultato)
+            mostra_feedback(feedback)
+            movimento = muoviti(counter_domanda_corrente, lista_domande_length)
+            counter_domanda_corrente += movimento
+
+        
         else: 
             feedback = "Inserisci solo la risposta tra le opzioni elencate"
-
-        mostra_feedback(feedback)
+            mostra_feedback(feedback)
+            continue
+        
 
     statistiche: dict[str, int] = genera_statistiche(risultato_finale)
 
