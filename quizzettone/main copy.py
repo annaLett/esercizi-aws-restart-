@@ -102,7 +102,15 @@ def muoviti(domanda_corrente: int, lunghezza_lista_domande: int) -> int:
     
     scelta_ute = input("Digita 'P' per tornare indietro, 'S' (o qualsiasi altro tasto) per prosegue alla domanda Successiva: ")
     return -1 if scelta_ute.upper() == "P" else 1
+"""
+TODO
+muoviti deve proporre di poter inserire un numero e visualizzare la domanda a quel numero, ma solo se ha dato già la risposta altrimenti non ci può andare
+la risposta si aggiorna come abbiamo detto
+non mostriamo più il messaggio del risultato ma una lista finale numero-risposta-indovinato
+il numero dove siamo lo vediamo in grassetto 
+quindi non vediamo più domanda 1 di 3? da capire
 
+"""
 
 
 def main():
